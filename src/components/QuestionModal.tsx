@@ -29,27 +29,37 @@ export function QuestionModal({
           <X size={48} />
         </button>
 
-        <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center gap-12">
+        <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center gap-8">
+          {/* Team scores row - always visible at the top */}
+          <div className="w-full grid grid-cols-4 gap-4 mb-4">
+            {teams.map((team, index) => (
+              <div key={index} className="bg-blue-800 p-3 rounded-lg text-white text-center">
+                <h3 className="text-xl font-bold mb-1">{team.name}</h3>
+                <div className="text-2xl font-bold text-yellow-400">${team.score}</div>
+              </div>
+            ))}
+          </div>
+
           {question.media && (
-            <div className="w-full flex justify-center mb-8">
+            <div className="w-full flex justify-center mb-6">
               {question.media.type === 'image' && (
                 <img
                   src={question.media.url}
                   alt="Question media"
-                  className="max-h-[40vh] rounded-lg"
+                  className="max-h-[35vh] rounded-lg"
                 />
               )}
               {question.media.type === 'video' && (
                 <video
                   src={question.media.url}
                   controls
-                  className="max-h-[40vh] w-auto rounded-lg"
+                  className="max-h-[35vh] w-auto rounded-lg"
                 />
               )}
               {question.media.type === 'youtube' && (
                 <iframe
                   src={question.media.url}
-                  className="w-full aspect-video rounded-lg max-h-[40vh]"
+                  className="w-full aspect-video rounded-lg max-h-[35vh]"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
@@ -57,31 +67,32 @@ export function QuestionModal({
             </div>
           )}
 
-          <div className="text-5xl text-center font-bold text-white mb-12">
+          <div className="text-4xl text-center font-bold text-white mb-6">
             {question.question}
           </div>
 
           {showAnswer ? (
             <>
-              <div className="text-4xl text-center text-yellow-400 font-bold animate-fade-in mb-8">
+              <div className="text-3xl text-center text-yellow-400 font-bold animate-fade-in mb-6">
                 {question.answer}
               </div>
               
-              <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-blue-800 p-6 rounded-xl shadow-lg">
+              <div className="w-full bg-blue-800/80 p-6 rounded-xl shadow-lg">
+                <h2 className="text-center text-white text-2xl mb-4">Assign Points</h2>
                 <div className="grid grid-cols-4 gap-6">
                   {teams.map((team, index) => (
-                    <div key={index} className="text-center">
-                      <h3 className="text-white text-2xl font-bold mb-4">{team.name}</h3>
-                      <div className="flex gap-3">
+                    <div key={index} className="text-center bg-blue-700/50 p-4 rounded-lg">
+                      <h3 className="text-white text-xl font-bold mb-3">{team.name}</h3>
+                      <div className="flex justify-center gap-3">
                         <button
                           onClick={() => onUpdateScore(index, question.value)}
-                          className="bg-green-500 text-white px-4 py-2 rounded-lg text-xl hover:bg-green-600 transition-colors"
+                          className="bg-green-600 text-white px-4 py-2 rounded-lg text-lg font-bold hover:bg-green-700 transition-colors"
                         >
                           +{question.value}
                         </button>
                         <button
                           onClick={() => onUpdateScore(index, -question.value)}
-                          className="bg-red-500 text-white px-4 py-2 rounded-lg text-xl hover:bg-red-600 transition-colors"
+                          className="bg-red-600 text-white px-4 py-2 rounded-lg text-lg font-bold hover:bg-red-700 transition-colors"
                         >
                           -{question.value}
                         </button>
