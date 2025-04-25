@@ -71,10 +71,15 @@ function App() {
   };
 
   const resetGame = () => {
-    if (selectedGame === 'alima') {
-      setGameState(alimasHappyHour);
-    } else if (selectedGame === 'zarina') {
-      setGameState(zarinasHappyHour);
+    if (
+      window.confirm(
+        'Are you sure you want to reset the game? All progress will be lost.'
+      )
+    ) {
+      setGameState(
+        selectedGame === 'alima' ? alimasHappyHour : zarinasHappyHour
+      );
+      localStorage.removeItem('jeopardyGameState');
     }
   };
 
